@@ -11,6 +11,7 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
       classpath:applicationContext.xml
+      classpath:spring-session.xml
     </param-value>
   </context-param>
   <listener>
@@ -23,7 +24,10 @@
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:dispatcher-servlet.xml</param-value>
+      <param-value>
+        classpath:dispatcher-servlet.xml
+        classpath:spring-session.xml
+      </param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -33,6 +37,16 @@
   </servlet-mapping>
 
   <!-- 过滤器 -->
+  Spring Session
+  <filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

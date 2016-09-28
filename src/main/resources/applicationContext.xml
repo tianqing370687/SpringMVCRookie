@@ -12,5 +12,6 @@
     </bean>
 
     <import resource="spring-db.xml" />
+    <import resource="spring-redis.xml" />
 
 </beans>

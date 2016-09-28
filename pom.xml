@@ -12,6 +12,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <spring.version>4.3.0.RELEASE</spring.version>
+    <spring.session.version>1.2.1.RELEASE</spring.session.version>
 
     <hibernate.version>4.3.11.Final</hibernate.version>
     <mysql.version>5.1.29</mysql.version>
@@ -63,6 +64,22 @@
       <artifactId>spring-aspects</artifactId>
       <version>${spring.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.session</groupId>
+      <artifactId>spring-session</artifactId>
+      <version>${spring.session.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.session</groupId>
+      <artifactId>spring-session-data-redis</artifactId>
+      <version>${spring.session.version}</version>
+    </dependency>
     <!-- Spring end -->
 
     <!--hibernate-->
@@ -98,6 +115,25 @@
       <version>${slf4j.version}</version>
     </dependency>
     <!-- end-->
+
+    <!--Json -->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-core-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
+    <!-- end-->
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.4</version>
+    </dependency>
 
     <!-- jstl for jsp page -->
     <dependency>
