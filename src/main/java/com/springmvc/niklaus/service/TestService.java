@@ -11,4 +11,8 @@ public interface TestService {
 
     public Test getTestById(long id);
 
+    public void rSave(String key,String value);
+
+    public String rGet(String key);
+
 }

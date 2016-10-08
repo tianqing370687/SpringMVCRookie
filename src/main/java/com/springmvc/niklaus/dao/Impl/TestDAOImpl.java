@@ -6,13 +6,19 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
 
 /**
  * Created by nicholas.chi on 2016/9/23.
  */
 @Repository
 public class TestDAOImpl implements TestDAO{
+
+    @Resource
+    private RedisTemplate<String,String> redisTemplate;
 
     private SessionFactory sessionFactory;
 
@@ -45,5 +51,12 @@ public class TestDAOImpl implements TestDAO{
         session.close();
     }
 
+    public void rSave(String key,String value){
+        redisTemplate.opsForValue().set(key,value);
+    }
+
+    public String rGet(String key){
+        return redisTemplate.opsForValue().get(key);
+    }
 
 }

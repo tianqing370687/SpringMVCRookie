@@ -13,4 +13,8 @@ public interface TestDAO {
 
     public void updateTest(Test test);
 
+    public void rSave(String key,String value);
+
+    public String rGet(String key);
+
 }

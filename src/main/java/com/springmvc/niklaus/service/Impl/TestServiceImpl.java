@@ -25,4 +25,12 @@ public class TestServiceImpl implements TestService{
     public Test getTestById(long id) {
         return testDAO.getTestById(id);
     }
+
+    public void rSave(String key,String value){
+        testDAO.rSave(key,value);
+    }
+
+    public String rGet(String key){
+        return testDAO.rGet(key);
+    }
 }
