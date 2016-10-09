@@ -1,7 +1,6 @@
 package com.springmvc.niklaus.controller;
 
 import com.springmvc.niklaus.pojo.Test;
-import com.springmvc.niklaus.redis.RedisManager;
 import com.springmvc.niklaus.service.TestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -26,15 +24,23 @@ public class TestController {
 
     @RequestMapping(value="test",method = RequestMethod.GET)
     public String test(){
+        Test test = new Test();
+        test.setId(1);
+        test.setUserName("Klaus");
+        test.setEmail("klaus@123.com");
+        test.setPassword("123123123");
+        test.setLastLogin(new Date());
+        test.setDateJoined(new Date());
 
-        testService.rSave("1111","22222");
+        testService.rSave("test1",test);
+
         return "index";
     }
 
     @RequestMapping(value="rtest",method = RequestMethod.GET)
     public String rtest(){
-        String value = testService.rGet("1111");
-        log.info("the value {}",value);
+        Test test = testService.rGet("test1");
+        log.info("test.ino : {}",test.toString());
         return "index";
     }
 

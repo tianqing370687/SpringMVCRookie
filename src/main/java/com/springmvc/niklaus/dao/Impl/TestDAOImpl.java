@@ -17,9 +17,6 @@ import javax.annotation.Resource;
 @Repository
 public class TestDAOImpl implements TestDAO{
 
-    @Resource
-    private RedisTemplate<String,String> redisTemplate;
-
     private SessionFactory sessionFactory;
 
     //构造DAO
@@ -50,13 +47,4 @@ public class TestDAOImpl implements TestDAO{
         tx.commit();
         session.close();
     }
-
-    public void rSave(String key,String value){
-        redisTemplate.opsForValue().set(key,value);
-    }
-
-    public String rGet(String key){
-        return redisTemplate.opsForValue().get(key);
-    }
-
 }
