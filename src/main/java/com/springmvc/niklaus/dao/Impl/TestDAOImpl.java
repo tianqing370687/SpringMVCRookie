@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -17,34 +18,18 @@ import javax.annotation.Resource;
 @Repository
 public class TestDAOImpl implements TestDAO{
 
-    private SessionFactory sessionFactory;
-
-    //构造DAO
-    @Autowired
-    public TestDAOImpl(SessionFactory sessionFactory){
-        this.sessionFactory = sessionFactory;
-    }
+    @Resource
+    HibernateTemplate hibernateTemplate;
 
     public void addTest(Test test) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        session.save(test);
-        tx.commit();
-        session.close();
+        hibernateTemplate.save(test);
     }
 
     public Test getTestById(long id) {
-        Session session = sessionFactory.openSession();
-        Test test = (Test) session.get(Test.class,id);
-        session.close();
-        return test;
+        return hibernateTemplate.get(Test.class,id);
     }
 
     public void updateTest(Test test) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        session.update(test);
-        tx.commit();
-        session.close();
+        hibernateTemplate.saveOrUpdate(test);
     }
 }
