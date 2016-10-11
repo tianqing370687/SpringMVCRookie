@@ -26,7 +26,7 @@ public class TestController {
     public String test(){
         Test test = new Test();
 //        test.setId(1);
-        test.setUserName("Klaus");
+        test.setUserName("Klaus1");
         test.setEmail("klaus@123.com");
         test.setPassword("123123123");
         test.setLastLogin(new Date());

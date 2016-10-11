@@ -15,10 +15,7 @@
     <mvc:annotation-driven />
 
     <!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
-    <!--<context:component-scan base-package="com.springmvc.niklaus" />-->
-    <context:component-scan base-package="com.springmvc.niklaus" use-default-filters="false" >
-        <context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
-    </context:component-scan>
+    <context:component-scan base-package="com.springmvc.niklaus" />
 
     <!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

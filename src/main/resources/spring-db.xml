@@ -2,93 +2,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-">
-    <!-- 配置数据源 -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-          destroy-method="close">
-        <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl">
-            <value>${jdbc.url}</value>
-        </property>
-        <property name="user">
-            <value>${jdbc.username}</value>
-        </property>
-        <property name="password">
-            <value>${jdbc.password}</value>
-        </property>
-        <property name="minPoolSize">
-            <value>${jdbc.pool.min}</value>
-        </property>
-        <property name="maxPoolSize">
-            <value>${jdbc.pool.max}</value>
-        </property>
-        <property name="initialPoolSize">
-            <value>${jdbc.pool.init}</value>
-        </property>
-        <property name="maxStatements">
-            <value>${jdbc.pool.maxStatements}</value>
-        </property>
-        <property name="maxIdleTime">
-            <value>${jdbc.pool.maxIdleTime}</value>
-        </property>
-        <property name="idleConnectionTestPeriod">
-            <value>${jdbc.pool.idleConnectionTestPeriod}</value>
-        </property>
-        <property name="acquireRetryAttempts">
-            <value>${jdbc.pool.acquireRetryAttempts}</value>
-        </property>
-        <property name="breakAfterAcquireFailure">
-            <value>${jdbc.pool.breakAfterAcquireFailure}</value>
-        </property>
-        <property name="testConnectionOnCheckout">
-            <value>${jdbc.pool.testConnectionOnCheckout}</value>
-        </property>
-    </bean>
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"></property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">
-                    org.hibernate.dialect.MySQLDialect
-                </prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">none</prop>
-            </props>
-        </property>
-        <property name="packagesToScan">
-            <list>
-                <value>com.springmvc.niklaus.pojo</value>
-            </list>
-        </property>
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
 
-    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
-        <property name="sessionFactory">
-            <ref bean="sessionFactory" />
-        </property>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <!-- 定义事务管理器 -->
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
+    <bean id="testMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.springmvc.niklaus.dao.TestMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <!-- 定义方法的过滤规则 -->
-        <tx:attributes>
-            <!-- 所有方法都使用事务 -->
-            <tx:method name="*" propagation="REQUIRED" />
-        </tx:attributes>
-    </tx:advice>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
 
-    <aop:config>
-        <!-- 定义一个切入点 -->
-        <aop:pointcut id="services" expression="execution (* com.springmvc.niklaus.service.*Service.*(..))" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="services" />
-    </aop:config>
+    <tx:annotation-driven transaction-manager="transactionManager" />
 
 </beans>
